@@ -25,4 +25,9 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run crawler
+      env:
+        # GitHub 설정에서 등록할 이름들입니다.
+        DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: python main.py
