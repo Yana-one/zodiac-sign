@@ -4,7 +4,7 @@ on:
   schedule:
     # UTC 기준 21:00가 한국 시간(KST) 오전 6:00 입니다.
     - cron: '0 21 * * *'
-  workflow_dispatch: # 깃허브 웹사이트에서 수동으로 버튼을 눌러 실행할 수도 있게 해줍니다.
+  workflow_dispatch: # 수동 실행 버튼
 
 jobs:
   build:
@@ -17,16 +17,17 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10' # 사용하시는 파이썬 버전에 맞게 수정하세요
+        python-version: '3.10'
 
     - name: Install dependencies
+      # 💡 문제의 requirements.txt를 무시하고, 여기서 직접 4개만 깔끔하게 설치합니다!
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install selenium webdriver-manager deepl supabase
 
     - name: Run crawler
+      # 💡 파이썬 코드가 깃허브 비밀금고(Secrets)에서 키를 꺼내 쓸 수 있도록 연결!
       env:
-        # GitHub 설정에서 등록할 이름들입니다.
         DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
